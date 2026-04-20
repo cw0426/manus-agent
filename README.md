@@ -53,54 +53,7 @@
 ### 3. 依赖优化
 - 添加 Bean Validation 支持（spring-boot-starter-validation）
 
-## 快速开始
 
-### 环境要求
-
-- JDK 21+
-- Node.js 18+
-- Maven 3.8+
-
-### 后端启动
-
-```bash
-# 克隆项目
-git clone https://github.com/cw0426/manus-agent.git
-cd manus-agent
-
-# 编译 MCP 图片搜索服务
-cd yu-image-search-mcp-server
-mvn clean package -DskipTests
-cd ..
-
-# 启动后端
-mvn spring-boot:run
-```
-
-### 前端启动
-
-```bash
-cd yu-ai-agent-frontend
-npm install
-npm run dev
-```
-
-### 配置说明
-
-修改 `src/main/resources/application.yml`：
-
-```yaml
-spring:
-  ai:
-    dashscope:
-      api-key: 你的API密钥
-      chat:
-        options:
-          model: glm-4.7
-
-search-api:
-  api-key: 你的SearchAPI密钥
-```
 
 ## 项目结构
 
