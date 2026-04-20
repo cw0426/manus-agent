@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="mb7N-IYeNBllPbR-hgrO">
+    <mxGraphModel dx="944" dy="667" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="250" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="init" parent="1" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="idle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=12;fontStyle=1;" value="IDLE&lt;br&gt;&lt;i&gt;空闲&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="120" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="running" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;fontStyle=1;" value="RUNNING&lt;br&gt;&lt;i&gt;执行中&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="380" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="running_inner" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#f57c00;dashed=1;" value="" vertex="1">
+          <mxGeometry height="150" width="200" x="520" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="think" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#388e3c;fontSize=11;" value="Think&lt;br&gt;&lt;i&gt;思考&lt;/i&gt;" vertex="1">
+          <mxGeometry height="45" width="70" x="540" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=11;" value="Act&lt;br&gt;&lt;i&gt;行动&lt;/i&gt;" vertex="1">
+          <mxGeometry height="45" width="70" x="630" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="finished" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#388e3c;fontSize=12;fontStyle=1;" value="FINISHED&lt;br&gt;&lt;i&gt;已完成&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="780" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="error" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#d32f2f;fontSize=12;fontStyle=1;" value="ERROR&lt;br&gt;&lt;i&gt;错误&lt;/i&gt;" vertex="1">
+          <mxGeometry height="50" width="100" x="380" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="920" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" source="init" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1.5;" target="idle" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" edge="1" parent="1" source="idle" style="endArrow=classic;html=1;strokeColor=#1976d2;strokeWidth=1.5;fontSize=10;" target="running" value="run()">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" source="running" style="endArrow=classic;html=1;strokeColor=#388e3c;strokeWidth=1.5;fontSize=10;" target="finished" value="完成/terminate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" edge="1" parent="1" source="running" style="endArrow=classic;html=1;strokeColor=#d32f2f;strokeWidth=1.5;fontSize=10;" target="error" value="异常">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" edge="1" parent="1" source="finished" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1.5;fontSize=10;dashed=1;" target="idle" value="cleanup()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="50" />
+              <mxPoint x="170" y="50" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t6" edge="1" parent="1" source="error" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1.5;fontSize=10;dashed=1;" target="idle" value="cleanup()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="250" />
+              <mxPoint x="170" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t7" edge="1" parent="1" source="finished" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1.5;" target="end" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ta1" edge="1" parent="1" source="think" style="endArrow=classic;html=1;strokeColor=#388e3c;strokeWidth=1.5;" target="act" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ta2" edge="1" parent="1" source="act" style="endArrow=classic;html=1;strokeColor=#c2185b;strokeWidth=1.5;curved=1;" target="think" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="665" y="140" />
+              <mxPoint x="575" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ta_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" value="循环" vertex="1">
+          <mxGeometry height="20" width="40" x="590" y="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

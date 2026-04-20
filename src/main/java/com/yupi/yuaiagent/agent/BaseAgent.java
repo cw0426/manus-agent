@@ -1,7 +1,9 @@
 package com.yupi.yuaiagent.agent;
 
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yupi.yuaiagent.agent.model.AgentState;
+import com.yupi.yuaiagent.agent.model.StepResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -11,7 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -23,6 +27,8 @@ import java.util.concurrent.CompletableFuture;
 @Data
 @Slf4j
 public abstract class BaseAgent {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     // 核心属性
     private String name;
@@ -71,8 +77,8 @@ public abstract class BaseAgent {
                 currentStep = stepNumber;
                 log.info("Executing step {}/{}", stepNumber, maxSteps);
                 // 单步执行
-                String stepResult = step();
-                String result = "Step " + stepNumber + ": " + stepResult;
+                StepResult stepResult = step();
+                String result = "Step " + stepNumber + ": " + stepResult.getContent();
                 results.add(result);
             }
             // 检查是否超出步骤限制
@@ -105,12 +111,12 @@ public abstract class BaseAgent {
             // 1、基础校验
             try {
                 if (this.state != AgentState.IDLE) {
-                    sseEmitter.send("错误：无法从状态运行代理：" + this.state);
+                    sseEmitter.send(buildSseData("error", "错误：无法从状态运行代理：" + this.state));
                     sseEmitter.complete();
                     return;
                 }
                 if (StrUtil.isBlank(userPrompt)) {
-                    sseEmitter.send("错误：不能使用空提示词运行代理");
+                    sseEmitter.send(buildSseData("error", "错误：不能使用空提示词运行代理"));
                     sseEmitter.complete();
                     return;
                 }
@@ -121,8 +127,6 @@ public abstract class BaseAgent {
             this.state = AgentState.RUNNING;
             // 记录消息上下文
             messageList.add(new UserMessage(userPrompt));
-            // 保存结果列表
-            List<String> results = new ArrayList<>();
             try {
                 // 执行循环
                 for (int i = 0; i < maxSteps && state != AgentState.FINISHED; i++) {
@@ -130,17 +134,16 @@ public abstract class BaseAgent {
                     currentStep = stepNumber;
                     log.info("Executing step {}/{}", stepNumber, maxSteps);
                     // 单步执行
-                    String stepResult = step();
-                    String result = "Step " + stepNumber + ": " + stepResult;
-                    results.add(result);
-                    // 输出当前每一步的结果到 SSE
-                    sseEmitter.send(result);
+                    StepResult stepResult = step();
+                    // 根据步骤结果类型，构建结构化 SSE 数据
+                    String type = stepResult.getType() == StepResult.Type.TOOL_CALL ? "tool_call" : "final_answer";
+                    String sseData = buildSseData(type, stepResult.getContent(), stepResult.getToolCalls());
+                    sseEmitter.send(sseData);
                 }
                 // 检查是否超出步骤限制
                 if (currentStep >= maxSteps) {
                     state = AgentState.FINISHED;
-                    results.add("Terminated: Reached max steps (" + maxSteps + ")");
-                    sseEmitter.send("执行结束：达到最大步骤（" + maxSteps + "）");
+                    sseEmitter.send(buildSseData("error", "执行结束：达到最大步骤（" + maxSteps + "）"));
                 }
                 // 正常完成
                 sseEmitter.complete();
@@ -148,7 +151,7 @@ public abstract class BaseAgent {
                 state = AgentState.ERROR;
                 log.error("error executing agent", e);
                 try {
-                    sseEmitter.send("执行错误：" + e.getMessage());
+                    sseEmitter.send(buildSseData("error", "执行错误：" + e.getMessage()));
                     sseEmitter.complete();
                 } catch (IOException ex) {
                     sseEmitter.completeWithError(ex);
@@ -177,11 +180,45 @@ public abstract class BaseAgent {
     }
 
     /**
+     * 构建结构化 SSE 数据（JSON 格式）
+     *
+     * @param type    消息类型：tool_call / final_answer / error
+     * @param content 消息内容
+     * @return JSON 字符串
+     */
+    private String buildSseData(String type, String content) {
+        return buildSseData(type, content, null);
+    }
+
+    /**
+     * 构建结构化 SSE 数据（JSON 格式，包含工具调用详情）
+     *
+     * @param type      消息类型：tool_call / final_answer / error
+     * @param content   消息内容
+     * @param toolCalls 工具调用详情列表
+     * @return JSON 字符串
+     */
+    private String buildSseData(String type, String content, List<StepResult.ToolCallInfo> toolCalls) {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("type", type);
+            data.put("content", content);
+            if (toolCalls != null && !toolCalls.isEmpty()) {
+                data.put("toolCalls", toolCalls);
+            }
+            return OBJECT_MAPPER.writeValueAsString(data);
+        } catch (Exception e) {
+            // JSON 序列化失败时返回纯文本
+            return content;
+        }
+    }
+
+    /**
      * 定义单个步骤
      *
      * @return
      */
-    public abstract String step();
+    public abstract StepResult step();
 
     /**
      * 清理资源

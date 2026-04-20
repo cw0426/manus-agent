@@ -7,7 +7,7 @@
         "@amap/amap-maps-mcp-server"
       ],
       "env": {
-        "AMAP_MAPS_API_KEY": "你的 API Key"
+        "AMAP_MAPS_API_KEY": "8b270040f8f87e2e479bc48d9a160f9a"
       }
     },
     "yu-image-search-mcp-server": {

@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="NKebvG_U1PFaVae82brL">
+    <mxGraphModel dx="1089" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="400" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=11;" value="用户" vertex="1">
+          <mxGeometry height="320" width="60" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrl" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e8f5e9;strokeColor=#388e3c;fontSize=11;" value="Controller" vertex="1">
+          <mxGeometry height="320" width="70" x="130" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="manus" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=11;" value="YuManus" vertex="1">
+          <mxGeometry height="320" width="70" x="230" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="base" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=11;" value="BaseAgent" vertex="1">
+          <mxGeometry height="320" width="80" x="330" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tool" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=10;" value="ToolCallAgent" vertex="1">
+          <mxGeometry height="320" width="90" x="440" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tcm" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e0f7fa;strokeColor=#00838f;fontSize=10;" value="ToolManager" vertex="1">
+          <mxGeometry height="320" width="85" x="560" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cm" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff8e1;strokeColor=#ffa000;fontSize=11;" value="ChatModel" vertex="1">
+          <mxGeometry height="320" width="80" x="675" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tools" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffebee;strokeColor=#d32f2f;fontSize=11;" value="Tools" vertex="1">
+          <mxGeometry height="320" width="70" x="785" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#1976d2;" value="1. GET /manus/chat">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="80" as="sourcePoint" />
+            <mxPoint x="165" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#388e3c;" value="2. new YuManus()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="100" as="sourcePoint" />
+            <mxPoint x="265" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#f57c00;" value="3. runStream()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="120" as="sourcePoint" />
+            <mxPoint x="370" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#c2185b;dashed=1;" value="state=RUNNING">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="140" as="sourcePoint" />
+            <mxPoint x="370" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="loop" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=90;height=20;fillColor=#fafafa;strokeColor=#666666;fontSize=9;" value="loop [maxSteps]" vertex="1">
+          <mxGeometry height="140" width="490" x="320" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#7b1fa2;" value="4. step()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="190" as="sourcePoint" />
+            <mxPoint x="485" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#00838f;" value="5. think()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="210" as="sourcePoint" />
+            <mxPoint x="715" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;dashed=1;fontSize=9;strokeColor=#ffa000;" value="AI决策选工具">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="715" y="225" as="sourcePoint" />
+            <mxPoint x="485" y="225" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#d32f2f;" value="6. act()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="245" as="sourcePoint" />
+            <mxPoint x="602" y="245" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=9;strokeColor=#d32f2f;" value="7. executeTools()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="602" y="265" as="sourcePoint" />
+            <mxPoint x="820" y="265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;dashed=1;fontSize=9;strokeColor=#d32f2f;" value="工具结果">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="280" as="sourcePoint" />
+            <mxPoint x="70" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;dashed=1;fontSize=9;strokeColor=#666666;" value="8. SSE返回结果">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="320" as="sourcePoint" />
+            <mxPoint x="70" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

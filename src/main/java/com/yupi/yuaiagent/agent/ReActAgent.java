@@ -1,5 +1,6 @@
 package com.yupi.yuaiagent.agent;
 
+import com.yupi.yuaiagent.agent.model.StepResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public abstract class ReActAgent extends BaseAgent {
      *
      * @return 行动执行结果
      */
-    public abstract String act();
+    public abstract StepResult act();
 
     /**
      * 执行单个步骤：思考和行动
@@ -33,20 +34,26 @@ public abstract class ReActAgent extends BaseAgent {
      * @return 步骤执行结果
      */
     @Override
-    public String step() {
+    public StepResult step() {
         try {
             // 先思考
             boolean shouldAct = think();
             if (!shouldAct) {
-                return "思考完成 - 无需行动";
+                // 思考完成，不需要行动，返回最终回答
+                return new StepResult(StepResult.Type.FINAL_ANSWER, getFinalAnswer());
             }
             // 再行动
             return act();
         } catch (Exception e) {
             // 记录异常日志
             e.printStackTrace();
-            return "步骤执行失败：" + e.getMessage();
+            return new StepResult(StepResult.Type.FINAL_ANSWER, "步骤执行失败：" + e.getMessage());
         }
     }
+
+    /**
+     * 获取最终回答文本（由子类实现，从 think 阶段获取 LLM 的文本回复）
+     */
+    protected abstract String getFinalAnswer();
 
 }
