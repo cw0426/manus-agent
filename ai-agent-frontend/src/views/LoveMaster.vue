@@ -171,6 +171,9 @@ const addMessage = (content, isUser, isStreaming = false) => {
   }
 }
 
+// 免责声明
+const DISCLAIMER = '\n\n---\n*温馨提示：以上建议仅供参考，情感问题请结合实际情况理性思考。*'
+
 // 发送消息
 const sendMessage = (message) => {
   addMessage(message, true)
@@ -212,9 +215,24 @@ const sendMessage = (message) => {
     }
 
     if (data === '[DONE]') {
-      // 流式传输完成，关闭isStreaming标志
+      // 流式传输完成，添加免责声明
       if (aiMessageIndex < messages.value.length) {
+        messages.value[aiMessageIndex].content += DISCLAIMER
         messages.value[aiMessageIndex].isStreaming = false
+        // 更新存储中的消息（包含免责声明）
+        if (currentSessionId.value) {
+          const session = getSession(CHAT_TYPES.LOVE, currentSessionId.value)
+          if (session && session.messages && session.messages[aiMessageIndex]) {
+            session.messages[aiMessageIndex].content = messages.value[aiMessageIndex].content
+            // 触发保存
+            const sessionsList = getSessions(CHAT_TYPES.LOVE)
+            const idx = sessionsList.findIndex(s => s.id === currentSessionId.value)
+            if (idx !== -1) {
+              sessionsList[idx] = session
+              localStorage.setItem('ai_chat_love_sessions', JSON.stringify(sessionsList))
+            }
+          }
+        }
       }
       connectionStatus.value = 'disconnected'
       eventSource.close()
