@@ -54,20 +54,6 @@
 - 添加 Bean Validation 支持（spring-boot-starter-validation）
 
 
-
-## 项目结构
-
-```
-yu-ai-agent/
-├── src/main/java/com/yupi/yuaiagent/
-│   ├── agent/          # AI 智能体相关
-│   ├── app/            # AI 应用
-│   ├── tools/          # 工具类
-│   └── controller/     # 控制器
-├── yu-ai-agent-frontend/   # Vue 前端
-└── yu-image-search-mcp-server/  # MCP 图片搜索服务
-```
-
 ## 致谢
 
 本项目基于 [程序员鱼皮](https://github.com/liyupi) 的 [yu-ai-agent](https://github.com/liyupi/yu-ai-agent) 项目开发，感谢原作者的开源贡献。
