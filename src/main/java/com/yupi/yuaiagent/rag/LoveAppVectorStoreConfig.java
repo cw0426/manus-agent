@@ -14,8 +14,9 @@ import java.util.List;
 
 /**
  * 恋爱大师向量数据库配置（初始化基于内存的向量数据库 Bean）
+ * 使用 PGVector 时注释掉 @Configuration，避免重复加载文档
  */
-@Configuration
+// @Configuration
 @Slf4j
 public class LoveAppVectorStoreConfig {
 

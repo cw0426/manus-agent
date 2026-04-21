@@ -33,6 +33,61 @@
 - Ollama 大模型部署
 - 工具库：Kryo 高性能序列化 + Jsoup 网页抓取 + iText PDF 生成 + Knife4j 接口文档
 
+## 快速开始
+
+### 1. 环境准备
+
+- JDK 21+
+- Maven 3.6+
+- Docker（用于 PGVector 向量数据库）
+
+### 2. 启动 PGVector 向量数据库
+
+```bash
+# 拉取并启动 PGVector 容器
+docker run -e POSTGRES_USER=wzrooo -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=yu_ai_agent --name postgresql -p 5432:5432 -d pgvector/pgvector:pg16
+
+# 进入容器启用 vector 扩展
+docker exec -it postgresql psql -U wzrooo -d yu_ai_agent -c "CREATE EXTENSION vector;"
+
+# 创建向量存储表
+docker exec -it postgresql psql -U wzrooo -d yu_ai_agent -c "
+CREATE TABLE IF NOT EXISTS public.vector_store
+(
+    id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    content   TEXT,
+    metadata  JSONB,
+    embedding VECTOR(1536)
+);
+"
+```
+
+### 3. 配置项目
+
+修改 `src/main/resources/application.yml`，配置数据库连接：
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/yu_ai_agent
+    username: wzrooo
+    password: mypassword
+    driver-class-name: org.postgresql.Driver
+```
+
+### 4. 启动项目
+
+```bash
+mvn spring-boot:run
+```
+
+首次启动会自动加载知识库文档到 PGVector 数据库，后续启动会自动跳过（避免重复加载）。
+
+### 5. 访问接口
+
+- Swagger 文档：http://localhost:8123/api/swagger-ui.html
+- RAG 对话接口：`GET /api/ai/love_app/chat/rag?message=你的问题&chatId=会话ID`
+
 ## 项目改动说明
 
 本项目在原项目基础上进行了以下改动：
@@ -49,10 +104,17 @@
 - Markdown 渲染支持
 - AI 超级智能体工具调用详情前端展示
 - 区分 AI 最终答复与中间思考过程
+- **PGVector 向量数据库支持**：支持本地 Docker 部署，数据持久化存储
+- **智能文档加载**：首次启动加载文档，后续启动自动跳过，避免重复
+- **RAG 接口暴露**：新增 `/love_app/chat/rag` 接口，支持知识库问答
+- **系统提示词优化**：更详细、更有深度的 AI 回答，包含心理学原理和实操建议
 
 ### 3. 依赖优化
 - 添加 Bean Validation 支持（spring-boot-starter-validation）
 
+### 4. 配置优化
+- 启用 DataSource 自动配置
+- 禁用内存向量存储（使用 PGVector 替代）
 
 ## 致谢
 

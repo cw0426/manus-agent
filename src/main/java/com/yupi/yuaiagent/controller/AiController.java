@@ -92,6 +92,18 @@ public class AiController {
     }
 
     /**
+     * 同步调用 AI 恋爱大师应用（带 RAG 知识库）
+     *
+     * @param message
+     * @param chatId
+     * @return
+     */
+    @GetMapping("/love_app/chat/rag")
+    public String doChatWithLoveAppRag(String message, String chatId) {
+        return loveApp.doChatWithRag(message, chatId);
+    }
+
+    /**
      * 流式调用 Manus 超级智能体
      *
      * @param message
